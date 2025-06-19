@@ -28,20 +28,17 @@
     }
 
     .panel {
-      flex: 0 0 100vw;
       height: 100vh;
-      box-sizing: border-box;
-      padding: 3rem;
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
+      padding: 2rem;
+      box-sizing: border-box;
     }
 
-    .panel img.gallery-image {
-      height: 90vh;
-      object-fit: cover;
-      border-radius: 12px;
+    .intro {
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .logo {
@@ -54,13 +51,19 @@
       font-size: 1.2rem;
       max-width: 600px;
     }
+
+    .gallery-image {
+      height: 90vh;
+      object-fit: cover;
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body>
 
   <div class="outer">
     <div class="horizontal" id="scroll-track">
-      <div class="panel">
+      <div class="panel intro">
         <img src="plygn_smooth_fill.svg" alt="plygn logo" class="logo" />
         <p>Hi, I'm Kevin Maher — a freelance CGI artist working under the studio name <strong>plygn</strong>. I create photo-real still imagery for interior designers and architects, with a focus on mood, texture and storytelling.</p>
         <p>Email: <a href="mailto:hello@plygn.co.uk">hello@plygn.co.uk</a></p>
@@ -85,8 +88,6 @@
     gsap.registerPlugin(ScrollTrigger);
 
     const scrollTrack = document.getElementById("scroll-track");
-    const totalPanels = scrollTrack.children.length;
-    const totalScrollWidth = scrollTrack.scrollWidth;
 
     gsap.to(scrollTrack, {
       x: () => -(scrollTrack.scrollWidth - window.innerWidth),
