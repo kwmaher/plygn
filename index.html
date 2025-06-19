@@ -4,24 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>plygn</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
       font-family: sans-serif;
+      height: 100%;
+      overflow-x: hidden;
     }
 
-    [data-scroll-container] {
+    .scroll-wrapper {
+      height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
     .horizontal-scroll {
       display: flex;
-      flex-wrap: nowrap;
+      flex-direction: row;
       height: 100vh;
+      width: max-content;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     .panel {
@@ -35,12 +40,6 @@
       align-items: flex-start;
     }
 
-    .panel img.gallery-image {
-      height: 90vh;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
     .logo {
       width: 400px;
       height: auto;
@@ -51,19 +50,23 @@
       font-size: 1.2rem;
       max-width: 600px;
     }
+
+    .panel img.gallery-image {
+      height: 90vh;
+      object-fit: cover;
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body>
-  <div data-scroll-container>
-    <div class="horizontal-scroll" data-scroll-section data-scroll-direction="horizontal">
-
+  <div class="scroll-wrapper">
+    <div class="horizontal-scroll" id="scroll-track">
       <div class="panel">
         <img src="plygn_smooth_fill.svg" alt="plygn logo" class="logo" />
         <p>Hi, I'm Kevin Maher — a freelance CGI artist working under the studio name <strong>plygn</strong>. I create photo-real still imagery for interior designers and architects, with a focus on mood, texture and storytelling.</p>
         <p>Email: <a href="mailto:hello@plygn.co.uk">hello@plygn.co.uk</a></p>
         <p>Instagram: <a href="https://instagram.com/plygn.uk" target="_blank">@plygn.uk</a></p>
       </div>
-
       <div class="panel"><img src="image1.jpg" class="gallery-image" alt="CGI 1" /></div>
       <div class="panel"><img src="image2.jpg" class="gallery-image" alt="CGI 2" /></div>
       <div class="panel"><img src="image3.jpg" class="gallery-image" alt="CGI 3" /></div>
@@ -77,12 +80,25 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>
-    const scroll = new LocomotiveScroll({
-      el: document.querySelector("[data-scroll-container]"),
-      smooth: true,
-      direction: 'horizontal'
+    const scrollTrack = document.getElementById("scroll-track");
+    const panels = document.querySelectorAll(".panel");
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to(scrollTrack, {
+      xPercent: -100 * (panels.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".scroll-wrapper",
+        start: "top top",
+        end: () => `+=${scrollTrack.scrollWidth - window.innerWidth}`,
+        scrub: true,
+        pin: true,
+        anticipatePin: 1
+      }
     });
   </script>
 </body>
