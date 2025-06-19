@@ -8,8 +8,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      overflow-x: auto;
-      overflow-y: hidden;
+      overflow-x: hidden;
       font-family: sans-serif;
     }
 
@@ -115,18 +114,16 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    if (window.innerWidth > 768) {
-      const scrollTrack = document.getElementById("scroll-track");
-      const scrollLength = scrollTrack.scrollWidth - window.innerWidth;
-      document.body.style.height = scrollLength + window.innerHeight + "px";
+    const scrollTrack = document.getElementById("scroll-track");
 
+    if (window.innerWidth > 768) {
       gsap.to(scrollTrack, {
-        x: () => -scrollLength,
+        x: () => -(scrollTrack.scrollWidth - window.innerWidth),
         ease: "none",
         scrollTrigger: {
           trigger: ".outer",
           start: "top top",
-          end: () => "+=" + scrollLength,
+          end: () => "+=" + (scrollTrack.scrollWidth - window.innerWidth),
           scrub: true,
           pin: true,
           anticipatePin: 1,
