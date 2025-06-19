@@ -8,7 +8,8 @@
     html, body {
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
       font-family: sans-serif;
     }
 
@@ -20,9 +21,6 @@
 
     .horizontal {
       display: flex;
-      position: absolute;
-      top: 0;
-      left: 0;
       height: 100vh;
       will-change: transform;
     }
@@ -60,6 +58,11 @@
     }
 
     @media (max-width: 768px) {
+      html, body {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
       .horizontal {
         flex-direction: column !important;
         position: static;
@@ -112,16 +115,18 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    const scrollTrack = document.getElementById("scroll-track");
-
     if (window.innerWidth > 768) {
+      const scrollTrack = document.getElementById("scroll-track");
+      const scrollLength = scrollTrack.scrollWidth - window.innerWidth;
+      document.body.style.height = scrollLength + window.innerHeight + "px";
+
       gsap.to(scrollTrack, {
-        x: () => -(scrollTrack.scrollWidth - window.innerWidth),
+        x: () => -scrollLength,
         ease: "none",
         scrollTrigger: {
           trigger: ".outer",
           start: "top top",
-          end: () => "+=" + (scrollTrack.scrollWidth - window.innerWidth),
+          end: () => "+=" + scrollLength,
           scrub: true,
           pin: true,
           anticipatePin: 1,
