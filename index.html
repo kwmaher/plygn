@@ -58,6 +58,30 @@
       object-fit: cover;
       border-radius: 12px;
     }
+
+    @media (max-width: 768px) {
+      .horizontal {
+        flex-direction: column !important;
+        position: static;
+        transform: none !important;
+      }
+
+      .outer {
+        height: auto;
+        overflow: visible;
+      }
+
+      .panel {
+        width: 100% !important;
+        padding: 2rem;
+        height: auto;
+      }
+
+      .gallery-image {
+        width: 100%;
+        height: auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -90,19 +114,21 @@
 
     const scrollTrack = document.getElementById("scroll-track");
 
-    gsap.to(scrollTrack, {
-      x: () => -(scrollTrack.scrollWidth - window.innerWidth),
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".outer",
-        start: "top top",
-        end: () => "+=" + (scrollTrack.scrollWidth - window.innerWidth),
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true
-      }
-    });
+    if (window.innerWidth > 768) {
+      gsap.to(scrollTrack, {
+        x: () => -(scrollTrack.scrollWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".outer",
+          start: "top top",
+          end: () => "+=" + (scrollTrack.scrollWidth - window.innerWidth),
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
+    }
   </script>
 
 </body>
